@@ -14,5 +14,5 @@ resource "aws_instance" "ec2" {
 }
 
 data "template_file" "init" {
-  template = "${file("${path.module}/init.tpl")}"
+  template = file("${path.module}/init.tpl")
 }
