@@ -9,7 +9,7 @@ resource "aws_instance" "ec2" {
   key_name = "w.aws.eu-west-2"
 
   tags = {
-    Name = var.server_name
+    Name = var.module_server_name
     Type = "Spot"
   }
 
