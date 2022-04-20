@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# Amazon
-# yum install -y httpd
-# /etc/rc.d/init.d/httpd start
-
 # Ubuntu
+apt-get update
 apt-get install -y nginx
 service nginx start
 
@@ -16,12 +13,14 @@ wget https://s3.amazonaws.com/intro-to-devops-meetup/website.zip -O website.zip
 apt-get install -y unzip
 unzip website.zip
 
-yum install -y curl
+apt-get install -y awscli
+
 export AWS_REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document | grep region | awk -F\" '{print $4}')
 mkdir -p /root/.aws
 echo -e "[default]\nregion=$AWS_REGION" | tee /root/.aws/config
-export AWS_ACCESS_KEY_ID=FILL_IN
-export AWS_SECRET_ACCESS_KEY=FILL_IN
+
+
+# export AWS CREDENTIALS FROM PIPELINE
 export FQDN=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)" "Name=key,Values=Name" --output=text | cut -f 5)
 
 hostname $FQDN
